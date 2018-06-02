@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package modeloenviamelo;
+import java.util.*;
 
 /**
  *
@@ -21,7 +22,7 @@ class Furgoneta {
         this.almacen = almacen;
     }
     
-    
-  
+    void modificarDisponibilidad(boolean disponibilidad){ this.disponibilidad = disponibilidad; }
+    void modificarLocalizacion(Almacen almacen){ this.almacen = almacen; }
     
 }

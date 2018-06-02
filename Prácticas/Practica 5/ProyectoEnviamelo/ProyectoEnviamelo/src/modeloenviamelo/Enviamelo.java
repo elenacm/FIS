@@ -5,6 +5,7 @@
  */
 package modeloenviamelo;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,19 @@ public class Enviamelo {
     public void crearRutaPlantilla(int numeroRuta, LocalTime horaPrevistaInicio) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public void añadirParadaRutaPlantilla(int idRutaPlantilla, LocalTime horaPrevistaLlegada, int idAlmacen){}
+    public void asignarRutaFurgoneta(int idRutaPlantilla, LocalDate idRutaDiaria, String idFurgoneta){}
+    public void generarRutaDiaria(LocalDate fecha, int idRutaPlantilla){}
+    public string[0..*] obtenerFurgonetasRuta(int idRutaPlantilla){}
+    public void registarConclusionRuta(int idRutaPlantilla){}
+    public int registrarInicioRuta(int idRutaPlantilla){}
+    public void registrarParadaCompleta(int idRutaPlantilla){}
+    private Almacen buscarAlmacen(int idAlmacen){}
+    private Furgoneta buscarFurgoneta(int idFurgoneta){}
+    private RutaPlantilla buscarRutaPlantilla(int idRutaPlantilla){}
+    private boolean existeRutaPlantilla(int numeroRP){}
+    private Furgoneta[0..*] seleccionarFurgonetasDisponibles(String distrito){}
 
       
 }

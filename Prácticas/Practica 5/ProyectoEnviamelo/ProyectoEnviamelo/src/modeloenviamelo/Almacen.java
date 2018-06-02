@@ -22,4 +22,8 @@ class Almacen {
         this.responsable = responsable;
     }
     
+    String obtenerDistrito(){ return distrito; }
+    
+    String obtenerDireccion(){ return direccion; }
+    
 }
