@@ -22,7 +22,15 @@ class Furgoneta {
         this.almacen = almacen;
     }
     
-    void modificarDisponibilidad(boolean disponibilidad){ this.disponibilidad = disponibilidad; }
+    void modificarDisponibilidad(boolean disponibilidad){ this.disponibilidad = disponibilidad; }    
     void modificarLocalizacion(Almacen almacen){ this.almacen = almacen; }
     
+    List obtenerDatos(){
+        List datosFurgo = null;
+        
+        datosFurgo.add(matricula);
+        datosFurgo.add(pesoMaximo);
+        
+        return datosFurgo;
+    }
 }

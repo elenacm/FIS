@@ -15,5 +15,6 @@ public class ParadaEnRuta {
         this.parada = parada;
     }
     
+    Parada getParada(){ return parada; }    
    void modificarHoraLlegada(LocalTime hora){ horaLlegada = hora; }
 }

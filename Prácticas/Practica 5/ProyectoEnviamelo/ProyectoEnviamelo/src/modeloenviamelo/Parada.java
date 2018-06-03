@@ -6,6 +6,7 @@
 package modeloenviamelo;
 
 import java.time.LocalTime;
+import java.util.*;
 
 public class Parada {
     private LocalTime horaPrevistaLlegada;
@@ -16,7 +17,17 @@ public class Parada {
         this.almacen = almacen;
     }
     
-   String obtenerDistrito(){ return almacen.obtenerDistrito(); }
+   String obtenerDistrito(){ return almacen.obtenerDistrito(); }   
    Almacen obtenerAlmacen(){ return almacen; }
-   lista obtenerDatos(){}
+   
+   List obtenerDatos(){
+       List datosSiguienteParada = null;
+       datosSiguienteParada.add(horaPrevistaLlegada);
+       String distrito = almacen.obtenerDistrito();
+       datosSiguienteParada.add(distrito);
+       String direccion = almacen.obtenerDireccion();
+       datosSiguienteParada.add(direccion);
+       
+       return datosSiguienteParada;
+   }
 }
