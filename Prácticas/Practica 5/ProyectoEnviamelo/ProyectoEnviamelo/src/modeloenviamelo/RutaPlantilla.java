@@ -40,44 +40,49 @@ public class RutaPlantilla {
         }
     }
     
-    String obtenerDistritoPrimeraParada(){
-        String distrito;
-        
+    String obtenerDistritoPrimeraParada(){        
         Parada primeraParada = parada.get(0);
-        distrito = primeraParada.obtenerDistrito();
+        String distrito = primeraParada.obtenerDistrito();
         
         return distrito;
     }
     
     int obtenerNumeroParadas(){ return parada.size(); }
-    
     int obtenerNumeroRuta(){ return numeroRuta;}
-    
+    boolean RutaActiva(){ return activa; }
+       
+    //idRutaDiaria = fechaActual
     void registrarConclusionRuta(){
-        Ruta ruta = null;   //no se inicializa asi
+        LocalDate idRutaDiaria = LocalDate.now();
+        Ruta ruta = buscarRuta(idRutaDiaria);
+        
         ruta.registrarConclusion();
     }
     
     void registrarInicioRuta(){
-        Ruta ruta = rutas.get(numeroRuta);  //hay que coger la de la fecha actual
+        LocalDate idRutaDiaria = LocalDate.now();
+        Ruta ruta = buscarRuta(idRutaDiaria);
         ruta.registrarInicio();
     }
     
+    //idRuta = fechaActual
     List registrarParadaCompleta(){
-        LocalDate fecha = LocalDate.now();
-        Ruta ruta = null;
+        LocalDate idRuta = LocalDate.now();
+        Ruta ruta = buscarRuta(idRuta);
         
-        for(int i  = 0; i < rutas.size(); i++){
-            if(rutas.get(i).getFecha() == fecha)
-                ruta = rutas.get(i);
-        }
-        List datosSiguienteParada = ruta.registrarParadaCompleta();
-        
+        List datosSiguienteParada = ruta.registrarParadaCompleta();        
         return datosSiguienteParada;
     }
     
     Ruta buscarRuta(LocalDate idRutaDiaria){
         Ruta ruta = null;
+        
+        for (Ruta ruta1 : rutas) {
+            if(ruta1.FechaRealizacion() == idRutaDiaria){
+                ruta = ruta1;
+            }
+        }
+        
         return ruta;
     }
     

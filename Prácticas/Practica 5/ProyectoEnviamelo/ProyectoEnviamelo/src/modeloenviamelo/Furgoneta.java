@@ -24,9 +24,12 @@ class Furgoneta {
     
     void modificarDisponibilidad(boolean disponibilidad){ this.disponibilidad = disponibilidad; }    
     void modificarLocalizacion(Almacen almacen){ this.almacen = almacen; }
+    String obtenerMatricula(){ return matricula; }
+    Almacen obtenerAlmacen(){ return almacen; }
+    boolean disponibilidad(){ return disponibilidad; }
     
     List obtenerDatos(){
-        List datosFurgo = null;
+        List datosFurgo = new ArrayList();
         
         datosFurgo.add(matricula);
         datosFurgo.add(pesoMaximo);

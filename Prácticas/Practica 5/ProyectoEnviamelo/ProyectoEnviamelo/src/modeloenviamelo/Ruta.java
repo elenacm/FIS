@@ -16,14 +16,11 @@ public class Ruta {
     private Furgoneta furgoneta = null;
     private Parada actual = null;
    
-    Ruta(LocalDate fecha) {
-        fechaRealizacion = fecha;
-    }
-    
-    LocalDate getFecha(){ return fechaRealizacion; }
+    Ruta(LocalDate fecha) { fechaRealizacion = fecha; }    
+    LocalDate getFecha(){ return fechaRealizacion; }    
     
     void asignarFurgoneta(Furgoneta furgoneta){ 
-        this.furgoneta = furgoneta; 
+        this.furgoneta = furgoneta;
         furgoneta.modificarDisponibilidad(false);
     }
     
@@ -40,10 +37,15 @@ public class Ruta {
     }
     
     void registrarInicio(){
+        System.out.print("Holi");
         Parada primeraParada = siguienteParada();
+        System.out.print("Holi");
         modificarParadaActual(primeraParada);
+        System.out.print("Holi");
         LocalTime horaActual = LocalTime.now();
+        System.out.print("Holi");
         modificarHoraInicio(horaActual);
+        System.out.print("Holi");
     }
     
     List registrarParadaCompleta(){
@@ -53,15 +55,14 @@ public class Ruta {
         Parada parada = siguienteParada();
         modificarParadaActual(parada);
         
-        List datosSiguienteParada = parada.obtenerDatos();
+        List datosSiguienteParada = actual.obtenerDatos();
         return datosSiguienteParada;
     }
     
-    void sinParadaActual(){}
-    
-    void modificarHoraInicio(LocalTime horaInicio){}
-    
-    void modificarParadaActual(Parada parada){}
+    void sinParadaActual(){ actual = null; }
+    void modificarHoraInicio(LocalTime horaInicio){ this.horaInicio = horaInicio; }    
+    void modificarParadaActual(Parada parada){ actual = parada; }
+    LocalDate FechaRealizacion(){ return fechaRealizacion; }
     
     ParadaEnRuta obtenerParadaEnRuta(Parada paradaActual){
         ParadaEnRuta parada = null;

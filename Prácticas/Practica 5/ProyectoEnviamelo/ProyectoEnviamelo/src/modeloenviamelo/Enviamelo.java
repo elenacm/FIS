@@ -15,12 +15,8 @@ import java.util.*;
  */
 public class Enviamelo {
     private static Enviamelo instancia = new Enviamelo();
-    public static Enviamelo getInstancia(){
-        return instancia;
-    }
-    private Enviamelo(){    
-        this.inicalizar();
-    }
+    public static Enviamelo getInstancia(){ return instancia; }
+    private Enviamelo(){ this.inicalizar(); }
     
     private List<Almacen> almacenes = new ArrayList();
     private List<Furgoneta> furgonetas = new ArrayList();
@@ -45,29 +41,40 @@ public class Enviamelo {
         furgonetas.add(new Furgoneta("2885 JHG", 5000, a4));
         furgonetas.add(new Furgoneta("3335 DCD", 5000, a4));
     }
+    
+    public List<Almacen> obtenerAlmacen(){ return almacenes; }
+    
     // proporciona todos los numeros de ruta plantilla que estén activas 
     public int[] obtenerRutasActivas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int[] numeroRutaActiva = null;
+        int i = 0;
+        
+        for (RutaPlantilla rutaPlantilla1 : rutaPlantilla) {
+            if(rutaPlantilla1.RutaActiva()){
+                numeroRutaActiva[i] = rutaPlantilla1.obtenerNumeroRuta();
+                i++;
+            }
+        }
+        
+        return numeroRutaActiva;
     }
 
-    public int registrarInicioRuta(int numeroRuta) {
-        int numeroParadas = 0;
-        
+    public int registrarInicioRuta(int numeroRuta) {        
         RutaPlantilla rutaPlantilla = buscarRutaPlantilla(numeroRuta);
-        rutaPlantilla.registrarInicioRuta();
-        numeroParadas = rutaPlantilla.obtenerNumeroParadas();
+        rutaPlantilla.registrarInicioRuta();        
+        int numeroParadas = rutaPlantilla.obtenerNumeroParadas();
         
         return numeroParadas;
     }
 
-    public List registrarParadaCompletada(int numeroRuta) {
-        List datosSiguienteParada = null;
+    public List registrarParadaCompletada(int numeroRuta) {       
         RutaPlantilla rutaPlantilla = buscarRutaPlantilla(numeroRuta);
-        datosSiguienteParada = rutaPlantilla.registrarParadaCompleta();
+        List datosSiguienteParada = rutaPlantilla.registrarParadaCompleta();
         
         return datosSiguienteParada;
     }
-
+    
+    //idRutaPlantilla = numeroRuta
     public void registrarConclusionRuta(int numeroRuta) {
         RutaPlantilla rutaPlantilla = buscarRutaPlantilla(numeroRuta);
         rutaPlantilla.registrarConclusionRuta();
@@ -80,19 +87,22 @@ public class Enviamelo {
         
         RutaPlantilla unaRutaPlantilla = new RutaPlantilla(numeroRuta, horaPrevistaInicio);
         rutaPlantilla.add(unaRutaPlantilla);
-        int idRutaPlantilla = unaRutaPlantilla.obtenerNumeroRuta();
+        int idRutaPlantilla = unaRutaPlantilla.obtenerNumeroRuta(); //idRutaPlantilla = numeroRuta
         
         return idRutaPlantilla;
     }
     
-    public void añadirParadaRutaPlantilla(int idRutaPlantilla, LocalTime horaPrevistaLlegada, int idAlmacen){
+    //idRutaPlantilla = numeroRuta, idAlmacen = distritoPostal
+    public void añadirParadaRutaPlantilla(int idRutaPlantilla, LocalTime horaPrevistaLlegada, String idAlmacen){
         RutaPlantilla rutaPlantilla = buscarRutaPlantilla(idRutaPlantilla);
         Almacen almacen = buscarAlmacen(idAlmacen);
         
         rutaPlantilla.añadirParada(horaPrevistaLlegada, almacen);
     }
     
-    public void asignarRutaFurgoneta(int idRutaPlantilla, LocalDate idRutaDiaria, int idFurgoneta){
+    //idRuta = idRutaPlantilla +idRutaDiaria, idRutaPlantilla = numeroRuta
+    // idRutaDiaria = fecha, idFurgoneta = matricula
+    public void asignarRutaFurgoneta(int idRutaPlantilla, LocalDate idRutaDiaria, String idFurgoneta){
         RutaPlantilla rutaPlantilla = buscarRutaPlantilla(idRutaPlantilla);
         Furgoneta furgoneta = buscarFurgoneta(idFurgoneta);
         
@@ -101,7 +111,7 @@ public class Enviamelo {
     
     public void generarRutaDiaria(LocalDate fecha, int idRutaPlantilla){
         LocalDate fechaActual = LocalDate.now();        
-        //if(fecha < fechaActual) throw new UnsupportedOperationException("La fecha debe ser igual o posterior a la fecha actual");        
+        if(fecha.isBefore(fechaActual)) throw new UnsupportedOperationException("La fecha debe ser igual o posterior a la fecha actual");        
         RutaPlantilla rutaPlantilla = buscarRutaPlantilla(idRutaPlantilla);
         
         rutaPlantilla.generarRutaDiaria(fecha);
@@ -114,39 +124,70 @@ public class Enviamelo {
         String distrito = rutaPlantilla.obtenerDistritoPrimeraParada();
         Furgoneta[] furgo = seleccionarFurgonetasDisponibles(distrito);
         
-        for(int i = 0; i < furgo.length; i++){
-           List datosFurgo = furgo[i].obtenerDatos();
-           datosFurgonetas = datosFurgo;
+        for (Furgoneta furgoneta : furgo) {
+            List datosFurgo = furgoneta.obtenerDatos();
+            datosFurgonetas = datosFurgo;
         }
         
         return datosFurgonetas;
     }
         
-    private Almacen buscarAlmacen(int idAlmacen){
+    private Almacen buscarAlmacen(String idAlmacen){
         Almacen almacen = null;
         
-        for(int i = 0; i < almacenes.size(); i++){
+        for (Almacen almacen1 : almacenes) {
+            if(almacen.obtenerDistrito() == idAlmacen){
+                almacen = almacen1;
+            }
         }
         
         return almacen;
     }
     
-    private Furgoneta buscarFurgoneta(int idFurgoneta){
+    private Furgoneta buscarFurgoneta(String idFurgoneta){
         Furgoneta furgoneta = null;
+        
+        for (Furgoneta furgo : furgonetas) {
+            if(furgo.obtenerMatricula() == idFurgoneta){
+                furgoneta = furgo;
+            }
+        }
+        
         return furgoneta;
     }
     
     private RutaPlantilla buscarRutaPlantilla(int idRutaPlantilla){
         RutaPlantilla rutaPlantilla = null;
+        
+        for (RutaPlantilla miruta : this.rutaPlantilla) {
+            if(miruta.obtenerNumeroRuta() == idRutaPlantilla){
+                rutaPlantilla = miruta;
+            }
+        }
+        
         return rutaPlantilla;
     }
     
     private boolean existeRutaPlantilla(int numeroRP){
-        return true;
+        
+        for (RutaPlantilla rutaPlantilla1 : rutaPlantilla) {
+            if(rutaPlantilla1.obtenerNumeroRuta() == numeroRP)
+                return true;
+        }
+        return false;
     }
     
     private Furgoneta[] seleccionarFurgonetasDisponibles(String distrito){
         Furgoneta[] furgoneta = null;
+        int i  = 0;
+        
+        for (Furgoneta furgo : furgonetas) {
+            if(furgo.obtenerAlmacen().obtenerDistrito() == distrito && furgo.disponibilidad()){
+                furgoneta[i] = furgo;
+                i++;
+            }
+        }
+        
         return furgoneta;
     }
           

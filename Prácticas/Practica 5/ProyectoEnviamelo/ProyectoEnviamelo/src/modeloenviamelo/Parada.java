@@ -21,7 +21,7 @@ public class Parada {
    Almacen obtenerAlmacen(){ return almacen; }
    
    List obtenerDatos(){
-       List datosSiguienteParada = null;
+       List datosSiguienteParada = new ArrayList();
        datosSiguienteParada.add(horaPrevistaLlegada);
        String distrito = almacen.obtenerDistrito();
        datosSiguienteParada.add(distrito);
